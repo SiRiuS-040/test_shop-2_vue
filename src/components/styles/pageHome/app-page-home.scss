@@ -1,0 +1,45 @@
+.app-page-home {
+
+}
+
+.app-catalog {
+  &__title {
+    font-size: 20px;
+    line-height: 24px;
+    margin-bottom: 10px;
+  }
+
+  &__section {
+    margin-top: 25px;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+
+  &__categories {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 5px;
+  }
+}
+
+.app-catalog-category {
+  //border: 1px solid var(--black);
+
+  &__title {
+    font-size: 20px;
+    line-height: 24px;
+    padding: 5px;
+
+    border: 2px solid var(--black);
+    border-radius: 5px 5px 0 0;
+    border-bottom: none;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--black);
+  }
+}

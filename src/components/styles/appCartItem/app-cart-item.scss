@@ -1,0 +1,48 @@
+.app-cart-item {
+  display: grid;
+  grid-template-columns: 1fr auto 100px auto;
+  grid-gap: 20px;
+  padding-left: 30px;
+  list-style: unset;
+  position: relative;
+
+  &:before {
+    content: counter(num);
+    counter-increment: num;
+    display: inline-block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--basic-black);
+  }
+
+  &__name {
+    font-size: 18px;
+  }
+
+  &__count {
+    text-align: center;
+  }
+
+  &__count-wrapper {
+    height: fit-content;
+    display: grid;
+    grid-template-columns: auto 40px auto;
+    align-items: center;
+    justify-content: center;
+    grid-gap: 10px;
+  }
+
+  &__price-overall {
+    text-align: right;
+    height: fit-content;
+  }
+
+  &__delete {
+    height: fit-content;
+    align-items: flex-start;
+  }
+}

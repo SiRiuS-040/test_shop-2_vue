@@ -1,0 +1,36 @@
+.ui-button {
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  min-height: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  cursor: pointer;
+  color: var(--black);
+
+  &:hover {
+    transition: all 0.2s;
+  }
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  &--add-cart {
+
+  }
+
+  &--order {
+    text-transform: uppercase;
+    padding: 10px;
+    background: lightgreen;
+    color: var(--black);
+    border-radius: 4px;
+  }
+}
