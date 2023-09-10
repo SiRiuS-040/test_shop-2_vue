@@ -23,7 +23,7 @@
                     />
                 </ol>
                 <div class="app-cart__sum">
-                    ИТОГО: {{ cartOverallSum }} р.
+                    ИТОГО: {{ convertPrice(cartOverallSum) }} р.
                 </div>
 
                 <div class="app-cart__actions">
@@ -37,11 +37,8 @@
                     </UiButton>
                 </div>
             </div>
-
         </div>
-
     </div>
-
 </template>
 
 <script>
@@ -53,7 +50,6 @@ import {appMarketData} from "@/components/features/appMarketData";
 
 export default {
     name: "AppCart",
-
     components: {
         UiButton,
         AppCartItem
@@ -77,6 +73,10 @@ export default {
             }
         })
 
+        const convertPrice = (num) => {
+            return num.toLocaleString();
+        }
+
         const makeOrder = () => {
             console.log('Оформить заказ')
         };
@@ -85,10 +85,10 @@ export default {
             cartOverallSum,
             cartList,
             makeOrder,
-            cartEmpty
+            cartEmpty,
+            convertPrice
         }
     },
-
 }
 </script>
 

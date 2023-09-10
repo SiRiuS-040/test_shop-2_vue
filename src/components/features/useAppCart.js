@@ -20,7 +20,7 @@ export function addItemToCart(itemData, cartData) {
 
     if (cartData.cartList.length > 0) {
         let itemIndex = cartData.cartList.findIndex(cartItem => cartItem.id === itemDataId)
-        if (itemIndex != -1) {
+        if (itemIndex !== -1) {
             cartData.cartList[itemIndex].itemQuantity++
         } else {
             cartData.cartList.push(cartItemTemplate)

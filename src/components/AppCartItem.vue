@@ -11,7 +11,10 @@
                 class="app-cart-item__count-change"
             >
             </UiButton>
-            <span class="app-cart-item__count">
+            <span
+                :class="cartItemCountClasses"
+                class="app-cart-item__count"
+            >
                 {{ cartItemData.itemQuantity }}
             </span>
             <UiButton
@@ -23,9 +26,7 @@
             </UiButton>
         </div>
         <span class="app-cart-item__price-overall">
-<!--            {{ overallSum }} р.-->
-
-            {{ cartItemData.itemOverallPrice }} р.
+            {{ convertPrice(cartItemData.itemOverallPrice) }} р.
         </span>
         <UiButton
             @click="cartItemDelete(cartItemData, cartList)"
@@ -35,13 +36,19 @@
                 Удалить
             </template>
         </UiButton>
+        <p
+            v-if="isCountError"
+            class="app-cart-item__error"
+        >
+           На складе не достаточно товара !
+        </p>
     </li>
 </template>
 
 <script>
 
 import UiButton from "./UiButton.vue";
-import {unref} from "vue";
+import {computed, unref} from "vue";
 import {appMarketData} from "@/components/features/appMarketData";
 
 export default {
@@ -53,7 +60,7 @@ export default {
         cartItemData : Object,
     },
 
-    setup(){
+    setup(props){
         const cartList = unref(appMarketData).cartData.cartList;
 
         const getItemIndex = (item, list) => {
@@ -74,12 +81,31 @@ export default {
             let itemIndex = getItemIndex(item, list)
             list.splice(itemIndex, 1)
         };
+        const marketCatalog = unref(appMarketData).marketCatalog;
+        const isCountError = computed(() => {
+            const itemCartQ = unref(props.cartItemData).itemQuantity;
+            const indexInCatalog = getItemIndex(unref(props.cartItemData), unref(marketCatalog));
+            const countInCatalog = unref(marketCatalog)[indexInCatalog].count;
+
+            return itemCartQ > countInCatalog
+        })
+
+        const cartItemCountClasses = computed(() => ({
+            'app-cart-item__count--error': unref(isCountError)
+        }))
+
+        const convertPrice = (num) => {
+            return num.toLocaleString();
+        }
 
         return {
             cartItemIncr,
             cartItemDecr,
             cartItemDelete,
             cartList,
+            cartItemCountClasses,
+            isCountError,
+            convertPrice
         }
     },
 }

@@ -1,6 +1,6 @@
 .app-cart-item {
   display: grid;
-  grid-template-columns: 1fr auto 100px auto;
+  grid-template-columns: 1fr auto 100px auto 300px;
   grid-gap: 20px;
   padding-left: 30px;
   list-style: unset;
@@ -25,6 +25,10 @@
 
   &__count {
     text-align: center;
+
+    &--error {
+      color: red;
+    }
   }
 
   &__count-wrapper {
@@ -44,5 +48,11 @@
   &__delete {
     height: fit-content;
     align-items: flex-start;
+  }
+
+  &__error {
+    text-align: right;
+    color: red;
+    font-weight: 700;
   }
 }

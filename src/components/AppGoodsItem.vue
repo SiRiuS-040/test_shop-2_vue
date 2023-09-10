@@ -7,7 +7,7 @@
             :class="priceClasses"
             class="app-goods-item__price"
         >
-            {{ itemData.price }}
+            {{ convertPrice(itemData.price) }}
         </div>
         <UiButton
             @click="addItemToCart(itemData, cartData)"
@@ -65,10 +65,15 @@ export default {
             'app-goods-item__price--decr': !unref(isPriceUp),
         }))
 
+        const convertPrice = (num) => {
+            return num.toLocaleString();
+        }
+
         return {
             cartData,
             addItemToCart,
             priceClasses,
+            convertPrice
         }
     },
 
