@@ -1,13 +1,13 @@
 <template>
     <div class="app-goods-item">
         <div class="app-goods-item__name">
-            {{ itemData.category }}. {{ itemData?.name }} ( {{ itemData?.count }} )
+            {{ itemData.category }}. {{ itemData.name }} ( {{ itemData.count }} )
         </div>
         <div
             :class="priceClasses"
             class="app-goods-item__price"
         >
-            {{ itemData?.price }}
+            {{ itemData.price }}
         </div>
         <UiButton
             @click="addItemToCart(itemData)"
@@ -32,16 +32,16 @@ export default {
 
     props: {
         itemData: {
-            type: Object,
-            default() {
-                return {
-                    id: 0,
-                    category: '',
-                    name: '',
-                    price: 0,
-                    count: 0,
-                }
-            },
+            type: Object
+            // default() {
+            //     return {
+            //         id: 0,
+            //         category: '',
+            //         name: '',
+            //         price: 0,
+            //         count: 0,
+            //     }
+            // },
         }
     },
 

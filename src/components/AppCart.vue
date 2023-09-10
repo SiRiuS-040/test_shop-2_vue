@@ -55,7 +55,6 @@ export default {
     },
 
     setup(){
-
         const cartItems = ref([]);
 
         cartItems.value = [

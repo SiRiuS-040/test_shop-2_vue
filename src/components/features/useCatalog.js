@@ -23,7 +23,7 @@ const exchangeValue = ref(80);
 
 setInterval ( () => {
     exchangeValue.value =  randomInteger(20, 80)
-}, 1000)
+}, 15000)
 
 export const transformData = () => {
     const clearCatalogData = ref([])
@@ -31,32 +31,54 @@ export const transformData = () => {
     unref(rawAppData).Value.Goods.map(function(name) {
         const itemData = {}
 
+        const itemCount = ref(name[dataCode.itemStorageValue]);
+        const itemPrice = ref(name[dataCode.itemPrice]);
+        const itemName = ref(namesData[name[dataCode.itemGroup]][dataCode.itemTypes][name[dataCode.itemId]][dataCode.itemName]);
+        const itemCategory = ref(namesData[name[dataCode.itemGroup]][dataCode.itemGroup]);
+
+        setInterval ( () => {
+            // exchangeValue.value =  randomInteger(20, 80)
+            itemCount.value =  randomInteger(0, 99)
+            itemPrice.value =  randomInteger(0, 99)
+            // itemCategory.value =  randomInteger(0, 99)
+        }, 10000)
+
         itemData.id = name[dataCode.itemId];
-        itemData.category = namesData[name[dataCode.itemGroup]][dataCode.itemGroup]
-        itemData.name = namesData[name[dataCode.itemGroup]][dataCode.itemTypes][name[dataCode.itemId]][dataCode.itemName]
-        itemData.count = computed(()=> {
-            return name[dataCode.itemStorageValue]
+        itemData.category = computed(() => {
+            return unref(itemCategory)
+        })
+        itemData.name = computed(() => {
+            return unref(itemName)
+        })
+        itemData.count = computed(() => {
+            return unref(itemCount)
         })
         itemData.price = computed(() => {
-            return +setPrice(name[dataCode.itemPrice], exchangeValue).toFixed(2)
+            return +setPrice(unref(itemPrice), exchangeValue).toFixed(2)
         })
+
         clearCatalogData.value.push(itemData)
     });
 
-    const appClearData = computed(() => {
+    const appMarketData = computed(() => {
         return {
-            catalogData: clearCatalogData,
-            cartData: [],
+            marketCatalog: clearCatalogData,
+            cartData: {
+                cartOverallSum: 0,
+                cartOverallItems: 0,
+                cartEmpty: true,
+                cartList: [],
+            },
             settings: {
                 exchangeValue: exchangeValue
             }
         }
     })
 
-    console.log(appClearData)
+    console.log(appMarketData)
 
     return {
-        appClearData,
+        appMarketData,
         isPageDataLoaded,
     }
 }

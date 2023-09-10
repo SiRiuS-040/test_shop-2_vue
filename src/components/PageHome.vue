@@ -35,7 +35,7 @@
 
 <script>
 
-import {unref} from "vue";
+import {computed, unref} from "vue";
 // import { getData } from "@/components/features/getAppData";
 
 import {transformData} from "@/components/features/useCatalog";
@@ -53,23 +53,22 @@ export default {
 
     setup( ){
         const {
-            appClearData,
+            appMarketData,
             isPageDataLoaded,
         } = transformData()
 
-        const catalogData = unref(appClearData).catalogData
-        const currencyExchangeValue = unref(appClearData).settings.exchangeValue
+        const catalogData = unref(appMarketData).marketCatalog
+        const currencyExchangeValue = unref(appMarketData).settings.exchangeValue
 
         console.log(catalogData)
 
-        const getCategoryList = () => {
+        const categoryList = computed(() => {
             let catList = []
-            catalogData.value.forEach(function (data) {
+            unref(catalogData).forEach(function (data) {
                 catList.push(data.category)
             })
             return [...new Set(catList)]
-        }
-        const categoryList = getCategoryList();
+        })
 
         const sortCatalog = (catalogItems, category) => {
             return catalogItems.filter(function (item) {
