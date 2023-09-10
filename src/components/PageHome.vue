@@ -3,7 +3,9 @@
         v-if="isPageDataLoaded"
         class="app-page-home"
     >
-        Курс валюты: {{ currencyExchangeValue }} руб.
+        <p>
+            Курс валюты: {{ currencyExchangeValue }} руб.
+        </p>
         <div class="app-catalog">
             <div class="app-catalog__section">
                 <h2 class="app-catalog__title">Каталог товаров</h2>
@@ -30,38 +32,25 @@
             />
         </div>
     </div>
-
 </template>
 
 <script>
-
 import {computed, unref} from "vue";
-// import { getData } from "@/components/features/getAppData";
-
-import {transformData} from "@/components/features/useCatalog";
-
+import {appMarketData} from "@/components/features/appMarketData";
 import AppGoodsItem from "../components/AppGoodsItem";
 import AppCart from "../components/AppCart";
 
 export default {
     name: "PageHome",
-
     components: {
         AppGoodsItem,
         AppCart
     },
 
     setup( ){
-        const {
-            appMarketData,
-            isPageDataLoaded,
-        } = transformData()
-
         const catalogData = unref(appMarketData).marketCatalog
+        const isPageDataLoaded = unref(appMarketData).isPageDataLoaded
         const currencyExchangeValue = unref(appMarketData).settings.exchangeValue
-
-        console.log(catalogData)
-
         const categoryList = computed(() => {
             let catList = []
             unref(catalogData).forEach(function (data) {
@@ -89,6 +78,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import "../assets/variables";
     @import "../components/styles/pageHome/app-page-home";
 </style>

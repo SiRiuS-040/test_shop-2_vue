@@ -1,16 +1,31 @@
-import { ref } from "vue";
+import {computed, ref} from "vue";
 
-export const marketData = ref({
+import {transformData} from "@/components/features/useCatalog";
+
+const {
+    clearCatalogData,
+    exchangeValue,
+    isPageDataLoaded,
+} = transformData()
+
+
+export const appMarketData = ref({
+    marketCatalog: computed(() => {
+        return clearCatalogData
+    }),
+    isPageDataLoaded: computed(() => {
+        return isPageDataLoaded
+    }),
     cartData: {
-        cartOverallSum: 0,
-        cartOverallItems: 0,
-        cartEmpty: true,
-        cartList: [],
+        cartList: ref([]),
     },
-    marketCatalog: [],
     settings: {
-        exchangeValue: 80
+        exchangeValue: computed(() => {
+            return exchangeValue
+        }),
     }
 })
+
+
 
 

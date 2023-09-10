@@ -1,5 +1,5 @@
 .app-page-home {
-
+  padding: 20px;
 }
 
 .app-catalog {
@@ -20,26 +20,24 @@
   &__categories {
     display: grid;
     grid-template-columns: 1fr;
-    grid-gap: 5px;
+    grid-gap: 20px;
   }
 }
 
 .app-catalog-category {
-  //border: 1px solid var(--black);
-
   &__title {
     font-size: 20px;
     line-height: 24px;
-    padding: 5px;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: lightblue;
 
-    border: 2px solid var(--black);
-    border-radius: 5px 5px 0 0;
-    border-bottom: none;
   }
 
   &__list {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    border: 1px solid var(--black);
+    gap: 10px;
   }
 }

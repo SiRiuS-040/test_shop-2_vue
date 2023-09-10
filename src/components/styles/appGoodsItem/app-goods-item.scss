@@ -1,16 +1,12 @@
 .app-goods-item {
-  border: 1px solid var(--black);
 
   display: grid;
-  grid-gap: 5px;
   grid-template-columns: 1fr 120px auto;
+  grid-gap: 5px;
+  border: 1px solid var(--black);
+  border-radius: 5px;
   align-items: flex-start;
-
   padding: 5px;
-
-  &__name {
-
-  }
 
   &__price,&__add-cart {
     display: flex;

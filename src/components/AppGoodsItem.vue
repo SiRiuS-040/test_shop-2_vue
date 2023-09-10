@@ -1,7 +1,7 @@
 <template>
     <div class="app-goods-item">
         <div class="app-goods-item__name">
-            {{ itemData.category }}. {{ itemData.name }} ( {{ itemData.count }} )
+            {{ itemData.name }} ( {{ itemData.count }} )
         </div>
         <div
             :class="priceClasses"
@@ -10,7 +10,7 @@
             {{ itemData.price }}
         </div>
         <UiButton
-            @click="addItemToCart(itemData)"
+            @click="addItemToCart(itemData, cartData)"
             buttonType="add-cart"
             icon="cart"
             class="app-goods-item__add-cart"
@@ -22,6 +22,9 @@
 
 import { computed, unref} from "vue"
 import UiButton from "@/components/UiButton";
+
+import { addItemToCart } from "@/components/features/useAppCart";
+import {appMarketData} from "@/components/features/appMarketData";
 
 export default {
     name: "AppGoodsItem",
@@ -46,11 +49,7 @@ export default {
     },
 
     setup(props){
-        const addItemToCart = (item) => {
-            console.log('добавление товара в корзину')
-            console.log(item)
-        }
-
+        const cartData = unref(appMarketData).cartData
         let lastPrice = unref(props.itemData).price
 
         const isPriceUp = computed(() => {
@@ -67,6 +66,7 @@ export default {
         }))
 
         return {
+            cartData,
             addItemToCart,
             priceClasses,
         }

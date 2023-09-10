@@ -1,17 +1,13 @@
-import {
-        // computed,
-        ref
-} from "vue";
-// import namesData from "@/components/features/names";
+import { ref } from "vue";
 // import apiMethods from "@/components/api/resources/apiMethods";
 
 import storageData from "@/components/features/storageData";
 
 export const getData = () => {
     const isPageDataLoaded = ref(false);
-    const rawAppData = ref({});
+    const rawAppData = ref(storageData);
 
-    // подключение через запрос
+    // TODO подключение через запрос
     // const loadApiMethods = async() => {
     //     appPageData.value = await apiMethods.index();
     //
@@ -23,11 +19,12 @@ export const getData = () => {
     // };
     // loadApiMethods().then();
 
-    // или прямое получение данных из файла
+    // TODO или прямое получение данных из файла
     const getDataFromFile = () => {
-        rawAppData.value = storageData
+        // rawAppData.value = storageData
         isPageDataLoaded.value = true;
     };
+
     getDataFromFile();
 
     return {

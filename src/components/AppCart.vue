@@ -4,47 +4,52 @@
             class="app-cart__content"
         >
             <h3
-                v-if="true"
+                v-if="cartEmpty"
                 class="app-cart__sub-title"
             >
                 Товары в корзине отсутствуют.
             </h3>
-            <h3
-                v-if="true"
-                class="app-cart__sub-title">
-                Список добавленных товаров:
-            </h3>
-            <ol start="1" class="app-cart__order-list">
-                <AppCartItem
-                    v-for="item in cartItems"
-                    :key="item.id"
-                    :cartItemData="item"
-                />
-            </ol>
-            <div class="app-cart__sum">
-<!--                ИТОГО: {{ marketData.cartData.cartOverallSum }} р.-->
-                ИТОГО: {{ '600' }} р.
-            </div>
-        </div>
-        <div class="app-cart__actions">
-            <UiButton
-                @click="makeOrder"
-                buttonType="order"
+            <div
+                v-if="!cartEmpty"
             >
-                <template #desc>
-                    Оформить заказ
-                </template>
-            </UiButton>
+                <h3 class="app-cart__sub-title">
+                    Список добавленных товаров:
+                </h3>
+                <ol start="1" class="app-cart__order-list">
+                    <AppCartItem
+                        v-for="item in cartList"
+                        :key="item.id"
+                        :cartItemData="item"
+                    />
+                </ol>
+                <div class="app-cart__sum">
+                    ИТОГО: {{ cartOverallSum }} р.
+                </div>
+
+                <div class="app-cart__actions">
+                    <UiButton
+                        @click="makeOrder"
+                        buttonType="order"
+                    >
+                        <template #desc>
+                            Оформить заказ
+                        </template>
+                    </UiButton>
+                </div>
+            </div>
+
         </div>
+
     </div>
 
 </template>
 
 <script>
 
-import { ref } from "vue"
+import {computed, unref} from "vue"
 import UiButton from "@/components/UiButton";
 import AppCartItem from "@/components/AppCartItem";
+import {appMarketData} from "@/components/features/appMarketData";
 
 export default {
     name: "AppCart",
@@ -55,19 +60,32 @@ export default {
     },
 
     setup(){
-        const cartItems = ref([]);
+        const cartList = unref(appMarketData).cartData.cartList
+        const cartEmpty = computed(() => {
+            return unref(appMarketData).cartData.cartList.length === 0
+        })
 
-        cartItems.value = [
-            {}, {}, {}
-        ];
+        const cartOverallSum = computed(() => {
+            if (cartList.length > 0) {
+                let itemsSum = 0
+                unref(appMarketData).cartData.cartList.forEach(function (item) {
+                    itemsSum = itemsSum + unref(item.itemOverallPrice)
+                })
+                return itemsSum
+            } else {
+                return 0
+            }
+        })
 
         const makeOrder = () => {
             console.log('Оформить заказ')
         };
 
         return {
-            cartItems,
-            makeOrder
+            cartOverallSum,
+            cartList,
+            makeOrder,
+            cartEmpty
         }
     },
 

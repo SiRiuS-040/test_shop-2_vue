@@ -1,9 +1,8 @@
 import namesData from "@/components/features/names";
 import {computed, ref, unref} from "vue";
 import { getData } from "@/components/features/getAppData";
-// import storageData from "@/components/features/storageData.json";
-
 import { dataCode } from "@/components/features/appEnums";
+
 
 const {
     isPageDataLoaded,
@@ -30,18 +29,17 @@ export const transformData = () => {
 
     unref(rawAppData).Value.Goods.map(function(name) {
         const itemData = {}
-
         const itemCount = ref(name[dataCode.itemStorageValue]);
         const itemPrice = ref(name[dataCode.itemPrice]);
         const itemName = ref(namesData[name[dataCode.itemGroup]][dataCode.itemTypes][name[dataCode.itemId]][dataCode.itemName]);
         const itemCategory = ref(namesData[name[dataCode.itemGroup]][dataCode.itemGroup]);
 
-        setInterval ( () => {
+        setInterval ( () => { // для применения случайных значений
             // exchangeValue.value =  randomInteger(20, 80)
-            itemCount.value =  randomInteger(0, 99)
-            itemPrice.value =  randomInteger(0, 99)
+            itemCount.value =  randomInteger(0, 5)
+            itemPrice.value =  randomInteger(1, 99)
             // itemCategory.value =  randomInteger(0, 99)
-        }, 10000)
+        }, 1000)
 
         itemData.id = name[dataCode.itemId];
         itemData.category = computed(() => {
@@ -60,25 +58,9 @@ export const transformData = () => {
         clearCatalogData.value.push(itemData)
     });
 
-    const appMarketData = computed(() => {
-        return {
-            marketCatalog: clearCatalogData,
-            cartData: {
-                cartOverallSum: 0,
-                cartOverallItems: 0,
-                cartEmpty: true,
-                cartList: [],
-            },
-            settings: {
-                exchangeValue: exchangeValue
-            }
-        }
-    })
-
-    console.log(appMarketData)
-
     return {
-        appMarketData,
+        clearCatalogData,
+        exchangeValue,
         isPageDataLoaded,
     }
 }

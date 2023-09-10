@@ -1,19 +1,18 @@
 <template>
     <li class="app-cart-item">
         <p class="app-cart-item__name">
-            {{ 'cartItemData.itemName' }}
+            ({{ cartItemData.itemCategory }})  {{ cartItemData.itemName }}
         </p>
         <div class="app-cart-item__count-wrapper">
             <UiButton
-
+                @click="cartItemDecr(cartItemData)"
                 icon="minus"
                 buttonType="change-count"
                 class="app-cart-item__count-change"
             >
             </UiButton>
             <span class="app-cart-item__count">
-<!--                                {{ 'cartItemData.itemQuantity' }}-->
-                {{ '1000' }}
+                {{ cartItemData.itemQuantity }}
             </span>
             <UiButton
                 @click="cartItemIncr(cartItemData)"
@@ -24,11 +23,12 @@
             </UiButton>
         </div>
         <span class="app-cart-item__price-overall">
-<!--                            {{ 'cartItemData.itemOverallPrice' }} р.-->
-            {{ '100' }} р.
+<!--            {{ overallSum }} р.-->
+
+            {{ cartItemData.itemOverallPrice }} р.
         </span>
         <UiButton
-            @click="cartItemDelete(cartItemData)"
+            @click="cartItemDelete(cartItemData, cartList)"
             class="app-cart-item__delete"
         >
             <template #desc>
@@ -41,13 +41,11 @@
 <script>
 
 import UiButton from "./UiButton.vue";
-// import {marketData} from "./features/appMarketData";
-// import {cartItemDecr, cartItemDelete, cartItemIncr} from "./features/useMarketApp";
-// import {ref} from "vue";
+import {unref} from "vue";
+import {appMarketData} from "@/components/features/appMarketData";
 
 export default {
     name: "AppCartItem",
-
     components: {
         UiButton,
     },
@@ -56,23 +54,32 @@ export default {
     },
 
     setup(){
+        const cartList = unref(appMarketData).cartData.cartList;
+
+        const getItemIndex = (item, list) => {
+            let itemDataId = item.id;
+            return list.findIndex(cartItem => cartItem.id === itemDataId);
+        }
         const cartItemIncr = (itemData) => {
-            console.log(itemData)
-            console.log('увеличить кол-во товара')
+            itemData.itemQuantity++
         };
         const cartItemDecr = (itemData) => {
-            console.log(itemData)
-            console.log('уменьшить кол-во товара')
+            if (itemData.itemQuantity > 1) {
+                itemData.itemQuantity--
+            } else {
+                return
+            }
         };
-        const cartItemDelete = (itemData) => {
-            console.log(itemData)
-            console.log('удалить товар из корзины')
+        const cartItemDelete = (item, list) => {
+            let itemIndex = getItemIndex(item, list)
+            list.splice(itemIndex, 1)
         };
 
         return {
             cartItemIncr,
             cartItemDecr,
-            cartItemDelete
+            cartItemDelete,
+            cartList,
         }
     },
 }
