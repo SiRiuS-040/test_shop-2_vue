@@ -6,6 +6,10 @@
   list-style: unset;
   position: relative;
 
+  &--error {
+    color: red;
+  }
+
   &:before {
     content: counter(num);
     counter-increment: num;
@@ -25,10 +29,6 @@
 
   &__count {
     text-align: center;
-
-    &--error {
-      color: red;
-    }
   }
 
   &__count-wrapper {

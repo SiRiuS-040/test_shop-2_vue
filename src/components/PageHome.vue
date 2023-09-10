@@ -3,11 +3,25 @@
         v-if="isPageDataLoaded"
         class="app-page-home"
     >
-        <p>
-            Курс валюты: {{ currencyExchangeValue }} руб.
-        </p>
+
         <div class="app-catalog">
             <div class="app-catalog__section">
+                <div class="app-catalog__exchange-wrapper">
+                    <p class="app-catalog__title">
+                        Курс валюты: {{ currencyExchangeValue }} руб.
+                    </p>
+                    <label>
+                        <span class="app-catalog__title">
+                            {{ 'Фиксация курса: ' }}
+                        </span>
+                        <input
+                            v-model="manualExchangeInput"
+                            type="tel"
+                            placeholder="Свой курс не задан"
+                            class="app-catalog__title app-catalog__manual-value"
+                        />
+                    </label>
+                </div>
                 <h2 class="app-catalog__title">Каталог товаров</h2>
                 <div class="app-catalog__categories">
                     <div class="app-catalog__category app-catalog-category"
@@ -35,8 +49,9 @@
 </template>
 
 <script>
-import {computed, unref} from "vue";
+import {computed, unref, ref} from "vue";
 import {appMarketData} from "@/components/features/appMarketData";
+import { manualExchangeValue, exchangeValue } from "@/components/features/useCatalog";
 import AppGoodsItem from "../components/AppGoodsItem";
 import AppCart from "../components/AppCart";
 
@@ -47,10 +62,9 @@ export default {
         AppCart
     },
 
-    setup( ){
-        const catalogData = unref(appMarketData).marketCatalog
-        const isPageDataLoaded = unref(appMarketData).isPageDataLoaded
-        const currencyExchangeValue = unref(appMarketData).settings.exchangeValue
+    setup(){
+        const catalogData = unref(appMarketData).marketCatalog;
+        const isPageDataLoaded = unref(appMarketData).isPageDataLoaded;
         const categoryList = computed(() => {
             let catList = []
             unref(catalogData).forEach(function (data) {
@@ -58,22 +72,26 @@ export default {
             })
             return [...new Set(catList)]
         })
-
         const sortCatalog = (catalogItems, category) => {
             return catalogItems.filter(function (item) {
                 return item.category === category;
             })
         }
 
+        const manualExchangeInput = ref(manualExchangeValue);
+        const currencyExchangeValue = computed(() => {
+            return unref(exchangeValue)
+        })
+
         return {
             catalogData,
             isPageDataLoaded,
             currencyExchangeValue,
             categoryList,
-            sortCatalog
+            sortCatalog,
+            manualExchangeInput,
         }
     },
-
 }
 </script>
 

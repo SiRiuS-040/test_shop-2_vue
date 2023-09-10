@@ -3,7 +3,6 @@ import {computed, ref, unref} from "vue";
 import { getData } from "@/components/features/getAppData";
 import { dataCode } from "@/components/features/appEnums";
 
-
 const {
     isPageDataLoaded,
     rawAppData,
@@ -18,10 +17,30 @@ function setPrice(itemPrice, exchange) {
     return itemPrice * exchange.value
 }
 
-const exchangeValue = ref(80);
+const regex = /^[\d.,:]*$/;
+export const startExchangeValue = ref(80);
+export const manualExchangeValue = ref();
+export const manualExchangeValueInput = ref();
+
+export const exchangeValue = computed(() => {
+    if ( unref(manualExchangeValue) && regex.test(unref(manualExchangeValue)) && unref(manualExchangeValue) !== 0) {
+        manualExchangeValueInput.value = unref(manualExchangeValue)
+        return unref(manualExchangeValue)
+    } else if (unref(manualExchangeValue) && !regex.test(unref(manualExchangeValue))) {
+        manualExchangeValue.value = manualExchangeValue.value.slice(0, -1)
+        if (unref(manualExchangeValue).length === 0 ) {
+            return unref(startExchangeValue)
+        } else {
+            return unref(manualExchangeValue)
+        }
+    } else {
+        return unref(startExchangeValue)
+    }
+})
+
 
 setInterval ( () => {
-    exchangeValue.value =  randomInteger(20, 80)
+    startExchangeValue.value =  randomInteger(60, 80)
 }, 15000)
 
 export const transformData = () => {
@@ -34,12 +53,13 @@ export const transformData = () => {
         const itemName = ref(namesData[name[dataCode.itemGroup]][dataCode.itemTypes][name[dataCode.itemId]][dataCode.itemName]);
         const itemCategory = ref(namesData[name[dataCode.itemGroup]][dataCode.itemGroup]);
 
-        setInterval ( () => { // для применения случайных значений
-            // exchangeValue.value =  randomInteger(20, 80)
+        // TODO для проверки смены значений - для применения случайных значений
+        setInterval ( () => {
+            // exchangeValue.value =  randomInteger(50, 80)
             // itemCount.value =  randomInteger(0, 5)
-            itemPrice.value =  randomInteger(1, 99)
+            // itemPrice.value =  randomInteger(1, 50)
             // itemCategory.value =  randomInteger(0, 99)
-        }, 1000)
+        }, 15000)
 
         itemData.id = name[dataCode.itemId];
         itemData.category = computed(() => {

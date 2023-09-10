@@ -1,4 +1,4 @@
-import {computed, ref} from "vue";
+import {computed, ref, unref} from "vue";
 
 import {transformData} from "@/components/features/useCatalog";
 
@@ -8,6 +8,7 @@ const {
     isPageDataLoaded,
 } = transformData()
 
+// export const exchangeValue = ref(80);
 
 export const appMarketData = ref({
     marketCatalog: computed(() => {
@@ -21,7 +22,7 @@ export const appMarketData = ref({
     },
     settings: {
         exchangeValue: computed(() => {
-            return exchangeValue
+            return unref(exchangeValue)
         }),
     }
 })

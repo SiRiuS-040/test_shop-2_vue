@@ -1,5 +1,8 @@
 <template>
-    <li class="app-cart-item">
+    <li
+        :class="cartItemClasses"
+        class="app-cart-item"
+    >
         <p class="app-cart-item__name">
             ({{ cartItemData.itemCategory }})  {{ cartItemData.itemName }}
         </p>
@@ -11,10 +14,7 @@
                 class="app-cart-item__count-change"
             >
             </UiButton>
-            <span
-                :class="cartItemCountClasses"
-                class="app-cart-item__count"
-            >
+            <span class="app-cart-item__count">
                 {{ cartItemData.itemQuantity }}
             </span>
             <UiButton
@@ -90,8 +90,8 @@ export default {
             return itemCartQ > countInCatalog
         })
 
-        const cartItemCountClasses = computed(() => ({
-            'app-cart-item__count--error': unref(isCountError)
+        const cartItemClasses = computed(() => ({
+            'app-cart-item--error': unref(isCountError)
         }))
 
         const convertPrice = (num) => {
@@ -103,7 +103,7 @@ export default {
             cartItemDecr,
             cartItemDelete,
             cartList,
-            cartItemCountClasses,
+            cartItemClasses,
             isCountError,
             convertPrice
         }

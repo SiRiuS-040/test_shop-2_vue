@@ -1,10 +1,7 @@
 .ui-input {
-  width: 100%;
+  padding: 5px;
   background-color: transparent;
-  padding: 18px 8px 2px 8px;
-  border-bottom: 1px solid var(--footer-subscribe-input-border, #8D959C);
-  color: var(--footer-subscribe-input-text, #8D959C);
-
+  color: var(--black, #8D959C);
   font-size: var(--text-base-font-size, 18px);
   line-height: var(--text-base-line-height, 26px);
 
@@ -13,7 +10,6 @@
   }
 
   &:not(:placeholder-shown) {
-    border-color: var(--white, #FFFFFF);
-    color: var(--white, #FFFFFF);
+    color: red;
   }
 }

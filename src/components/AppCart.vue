@@ -1,8 +1,6 @@
 <template>
     <div class="app-cart">
-        <div
-            class="app-cart__content"
-        >
+        <div class="app-cart__content">
             <h3
                 v-if="cartEmpty"
                 class="app-cart__sub-title"

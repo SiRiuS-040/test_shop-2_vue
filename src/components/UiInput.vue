@@ -1,5 +1,9 @@
 <template>
-
+    <input
+        :type="type"
+        :placeholder="placeholder"
+        class="ui-input"
+    >
 </template>
 
 <script>
@@ -20,6 +24,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import "../assets/variables";
     @import "../components/styles/uiInput/ui-input";
 </style>

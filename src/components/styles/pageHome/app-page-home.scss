@@ -3,6 +3,14 @@
 }
 
 .app-catalog {
+  &__exchange-wrapper {
+    margin-bottom: 20px;
+  }
+
+  &__manual-value {
+    color: red;
+  }
+
   &__title {
     font-size: 20px;
     line-height: 24px;
