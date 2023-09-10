@@ -6,42 +6,45 @@
         <p class="app-cart-item__name">
             ({{ cartItemData.itemCategory }})  {{ cartItemData.itemName }}
         </p>
-        <div class="app-cart-item__count-wrapper">
-            <UiButton
-                @click="cartItemDecr(cartItemData)"
-                icon="minus"
-                buttonType="change-count"
-                class="app-cart-item__count-change"
-            >
-            </UiButton>
-            <span class="app-cart-item__count">
+        <div class="app-cart-item__params">
+            <div class="app-cart-item__count-wrapper">
+                <UiButton
+                    @click="cartItemDecr(cartItemData)"
+                    icon="minus"
+                    buttonType="change-count"
+                    class="app-cart-item__count-change"
+                >
+                </UiButton>
+                <span class="app-cart-item__count">
                 {{ cartItemData.itemQuantity }}
             </span>
-            <UiButton
-                @click="cartItemIncr(cartItemData)"
-                icon="plus"
-                buttonType="change-count"
-                class="app-cart-item__count-change"
-            >
-            </UiButton>
-        </div>
-        <span class="app-cart-item__price-overall">
+                <UiButton
+                    @click="cartItemIncr(cartItemData)"
+                    icon="plus"
+                    buttonType="change-count"
+                    class="app-cart-item__count-change"
+                >
+                </UiButton>
+            </div>
+            <span class="app-cart-item__price-overall">
             {{ convertPrice(cartItemData.itemOverallPrice) }} р.
         </span>
-        <UiButton
-            @click="cartItemDelete(cartItemData, cartList)"
-            class="app-cart-item__delete"
-        >
-            <template #desc>
-                Удалить
-            </template>
-        </UiButton>
-        <p
-            v-if="isCountError"
-            class="app-cart-item__error"
-        >
-           На складе не достаточно товара !
-        </p>
+            <UiButton
+                @click="cartItemDelete(cartItemData, cartList)"
+                class="app-cart-item__delete"
+            >
+                <template #desc>
+                    Удалить
+                </template>
+            </UiButton>
+        </div>
+
+<!--        <p-->
+<!--            v-if="isCountError"-->
+<!--            class="app-cart-item__error"-->
+<!--        >-->
+<!--           На складе не достаточно товара !-->
+<!--        </p>-->
     </li>
 </template>
 
@@ -112,5 +115,6 @@ export default {
 </script>
 
 <style lang="scss">
+    @import "../assets/variables";
     @import "./styles/appCartItem/app-cart-item";
 </style>

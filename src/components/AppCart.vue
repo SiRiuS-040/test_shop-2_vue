@@ -23,17 +23,6 @@
                 <div class="app-cart__sum">
                     ИТОГО: {{ convertPrice(cartOverallSum) }} р.
                 </div>
-
-                <div class="app-cart__actions">
-                    <UiButton
-                        @click="makeOrder"
-                        buttonType="order"
-                    >
-                        <template #desc>
-                            Оформить заказ
-                        </template>
-                    </UiButton>
-                </div>
             </div>
         </div>
     </div>
@@ -42,14 +31,12 @@
 <script>
 
 import {computed, unref} from "vue"
-import UiButton from "@/components/UiButton";
 import AppCartItem from "@/components/AppCartItem";
 import {appMarketData} from "@/components/features/appMarketData";
 
 export default {
     name: "AppCart",
     components: {
-        UiButton,
         AppCartItem
     },
 
@@ -91,5 +78,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    @import "../assets/variables";
     @import "../components/styles/appCart/app-cart";
 </style>

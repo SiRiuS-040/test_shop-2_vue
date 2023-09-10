@@ -9,6 +9,7 @@
 
   &__manual-value {
     color: red;
+    padding: 5px;
   }
 
   &__title {
@@ -26,9 +27,18 @@
   }
 
   &__categories {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 20px;
+    column-count: 1;
+    column-gap: 15px;
+
+    @media (min-width: $tablet-width) {
+      column-count: 2;
+    }
+  }
+
+  &__category {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
   }
 }
 
@@ -37,15 +47,13 @@
     font-size: 20px;
     line-height: 24px;
     padding: 5px 15px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     border-radius: 5px;
     background-color: lightblue;
-
   }
 
   &__list {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 5px;
   }
 }

@@ -3,7 +3,6 @@
         v-if="isPageDataLoaded"
         class="app-page-home"
     >
-
         <div class="app-catalog">
             <div class="app-catalog__section">
                 <div class="app-catalog__exchange-wrapper">
@@ -18,6 +17,7 @@
                             v-model="manualExchangeInput"
                             type="tel"
                             placeholder="Свой курс не задан"
+                            maxlength="10"
                             class="app-catalog__title app-catalog__manual-value"
                         />
                     </label>
@@ -30,7 +30,6 @@
                     >
                         <h2 class="app-catalog-category__title"> {{ category }}</h2>
                         <ul class="app-catalog-category__list">
-
                             <AppGoodsItem
                                 v-for="itemData in sortCatalog(catalogData, category)"
                                 :key="itemData.id"
@@ -96,5 +95,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    @import "../assets/variables";
     @import "../components/styles/pageHome/app-page-home";
 </style>

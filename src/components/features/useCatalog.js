@@ -57,7 +57,7 @@ export const transformData = () => {
         setInterval ( () => {
             // exchangeValue.value =  randomInteger(50, 80)
             // itemCount.value =  randomInteger(0, 5)
-            // itemPrice.value =  randomInteger(1, 50)
+            itemPrice.value =  randomInteger(1, 50)
             // itemCategory.value =  randomInteger(0, 99)
         }, 15000)
 
