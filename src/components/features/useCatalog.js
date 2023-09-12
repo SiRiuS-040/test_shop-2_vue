@@ -48,7 +48,7 @@ setInterval ( () => {
     getDataFromFile()
     updateStamp.value = new Date() / 1000;
     startExchangeValue.value =  randomInteger(60, 80)
-}, 2000)
+}, 15000)
 
 export const transformData = () => {
     const clearCatalogData = ref([])
