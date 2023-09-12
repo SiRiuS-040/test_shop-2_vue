@@ -10,7 +10,7 @@ export function addItemToCart(itemData, cartData) {
         }),
         itemName: ref(itemData.name),
         itemPrice: computed(() => {
-            return unref(itemData.price)
+            return unref(itemData.fullPrice)
         }),
         itemOverallPrice: computed(() => {
             return unref(cartItemTemplate.itemQuantity) * unref(cartItemTemplate.itemPrice)

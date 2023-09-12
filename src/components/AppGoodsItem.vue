@@ -7,7 +7,7 @@
             :class="priceClasses"
             class="app-goods-item__price"
         >
-            {{ convertPrice(itemData.price) }}
+            {{ convertPrice(itemData.fullPrice) }}
         </div>
         <UiButton
             @click="addItemToCart(itemData, cartData)"
@@ -36,15 +36,6 @@ export default {
     props: {
         itemData: {
             type: Object
-            // default() {
-            //     return {
-            //         id: 0,
-            //         category: '',
-            //         name: '',
-            //         price: 0,
-            //         count: 0,
-            //     }
-            // },
         }
     },
 

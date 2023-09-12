@@ -21,10 +21,10 @@ export const getData = () => {
 
     getDataFromFile();
 
+    // Обновление данных в Json - имитация
     setInterval ( () => {
-        storageData.Value.Goods[0]['C'] = randomInteger(0, 10)
-        storageData.Value.Goods[0]['P'] = randomInteger(0, 10)
-
+        storageData.Value.Goods[randomInteger(0, 11)]['C'] = randomInteger(0, 99)
+        storageData.Value.Goods[randomInteger(0, 11)]['P'] = randomInteger(0, 10)
     }, 1000)
 
     return {

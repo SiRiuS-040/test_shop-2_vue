@@ -38,13 +38,6 @@
                 </template>
             </UiButton>
         </div>
-
-<!--        <p-->
-<!--            v-if="isCountError"-->
-<!--            class="app-cart-item__error"-->
-<!--        >-->
-<!--           На складе не достаточно товара !-->
-<!--        </p>-->
     </li>
 </template>
 

@@ -44,13 +44,11 @@ const setUpdateTime = computed(() => {
     return unref(updateStamp)
 })
 
-
 setInterval ( () => {
     getDataFromFile()
-
     updateStamp.value = new Date() / 1000;
     startExchangeValue.value =  randomInteger(60, 80)
-}, 15000)
+}, 2000)
 
 export const transformData = () => {
     const clearCatalogData = ref([])
@@ -75,25 +73,22 @@ export const transformData = () => {
         itemData.category = itemCategory
         itemData.name = itemName
         itemData.count = itemCount
-        itemData.rawPrice = itemPrice
-        itemData.price = computed(() => {
-            return +setPrice(unref(itemData.rawPrice), exchangeValue).toFixed(2)
+        itemData.price = itemPrice
+        itemData.fullPrice = computed(() => {
+            return +setPrice(unref(itemData.price), exchangeValue).toFixed(2)
         })
 
         clearCatalogData.value.push(itemData)
     });
 
+    // TODO обновление модели при изменениях setUpdateTime
     const forceUpdateData = () => {
-        console.log('обновление')
-        // console.log(unref(clearCatalogData)[0].rawPrice)
-        // console.log(unref(rawCatalog)[0]['C'])
-
-
-
-
-
-        unref(clearCatalogData)[0].rawPrice = unref(rawCatalog)[0]['C']
-        unref(clearCatalogData)[0].count = unref(rawCatalog)[0]['P']
+        unref(clearCatalogData).forEach(function (item) {
+            let itemId = item.id
+            let indexInJson = unref(rawCatalog).findIndex(rawItem => rawItem['T'] === itemId)
+            item.price = unref(rawCatalog)[indexInJson]['C']
+            item.count = unref(rawCatalog)[indexInJson]['P']
+        })
     }
 
     watch(setUpdateTime, forceUpdateData);
