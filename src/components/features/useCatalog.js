@@ -62,12 +62,12 @@ export const transformData = () => {
         const itemCategory = ref(namesData[name[dataCode.itemGroup]][dataCode.itemGroup]);
 
         // TODO для проверки смены значений - для применения случайных значений
-        setInterval ( () => {
-            // exchangeValue.value =  randomInteger(50, 80)
-            // itemCount.value =  randomInteger(0, 5)
-            // itemPrice.value =  randomInteger(1, 50)
-            // itemCategory.value =  randomInteger(0, 99)
-        }, 5000)
+        // setInterval ( () => {
+        //     // exchangeValue.value =  randomInteger(50, 80)
+        //     // itemCount.value =  randomInteger(0, 5)
+        //     // itemPrice.value =  randomInteger(1, 50)
+        //     // itemCategory.value =  randomInteger(0, 99)
+        // }, 1005000)
 
         itemData.id = itemId
         itemData.category = itemCategory
