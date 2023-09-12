@@ -1,11 +1,13 @@
 import namesData from "@/components/features/names";
-import {computed, ref, unref} from "vue";
+import {computed, ref, unref, watch} from "vue";
 import { getData } from "@/components/features/getAppData";
 import { dataCode } from "@/components/features/appEnums";
 
 const {
     isPageDataLoaded,
-    rawAppData,
+    rawCatalog,
+    getDataFromFile,
+    updateStamp
 } = getData()
 
 function randomInteger(min, max) {
@@ -38,16 +40,24 @@ export const exchangeValue = computed(() => {
     }
 })
 
+const setUpdateTime = computed(() => {
+    return unref(updateStamp)
+})
+
 
 setInterval ( () => {
+    getDataFromFile()
+
+    updateStamp.value = new Date() / 1000;
     startExchangeValue.value =  randomInteger(60, 80)
 }, 15000)
 
 export const transformData = () => {
     const clearCatalogData = ref([])
 
-    unref(rawAppData).Value.Goods.map(function(name) {
+    unref(rawCatalog).filter(function(name) {
         const itemData = {}
+        const itemId = name[dataCode.itemId];
         const itemCount = ref(name[dataCode.itemStorageValue]);
         const itemPrice = ref(name[dataCode.itemPrice]);
         const itemName = ref(namesData[name[dataCode.itemGroup]][dataCode.itemTypes][name[dataCode.itemId]][dataCode.itemName]);
@@ -57,26 +67,36 @@ export const transformData = () => {
         setInterval ( () => {
             // exchangeValue.value =  randomInteger(50, 80)
             // itemCount.value =  randomInteger(0, 5)
-            itemPrice.value =  randomInteger(1, 50)
+            // itemPrice.value =  randomInteger(1, 50)
             // itemCategory.value =  randomInteger(0, 99)
-        }, 15000)
+        }, 5000)
 
-        itemData.id = name[dataCode.itemId];
-        itemData.category = computed(() => {
-            return unref(itemCategory)
-        })
-        itemData.name = computed(() => {
-            return unref(itemName)
-        })
-        itemData.count = computed(() => {
-            return unref(itemCount)
-        })
+        itemData.id = itemId
+        itemData.category = itemCategory
+        itemData.name = itemName
+        itemData.count = itemCount
+        itemData.rawPrice = itemPrice
         itemData.price = computed(() => {
-            return +setPrice(unref(itemPrice), exchangeValue).toFixed(2)
+            return +setPrice(unref(itemData.rawPrice), exchangeValue).toFixed(2)
         })
 
         clearCatalogData.value.push(itemData)
     });
+
+    const forceUpdateData = () => {
+        console.log('обновление')
+        // console.log(unref(clearCatalogData)[0].rawPrice)
+        // console.log(unref(rawCatalog)[0]['C'])
+
+
+
+
+
+        unref(clearCatalogData)[0].rawPrice = unref(rawCatalog)[0]['C']
+        unref(clearCatalogData)[0].count = unref(rawCatalog)[0]['P']
+    }
+
+    watch(setUpdateTime, forceUpdateData);
 
     return {
         clearCatalogData,
@@ -84,3 +104,4 @@ export const transformData = () => {
         isPageDataLoaded,
     }
 }
+
