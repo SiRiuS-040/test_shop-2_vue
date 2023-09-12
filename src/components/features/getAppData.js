@@ -15,6 +15,7 @@ export const getData = () => {
     // TODO или прямое получение данных из файла
     const getDataFromFile = () => {
         const newJson = storageData.Value.Goods
+        updateStamp.value = new Date() / 1000;
         rawCatalog.value = newJson
         isPageDataLoaded.value = true;
     };
