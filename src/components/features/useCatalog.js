@@ -1,5 +1,5 @@
 import namesData from "@/components/features/names";
-import {computed, ref, unref, watch} from "vue";
+import {computed, reactive, ref, unref, watch} from "vue";
 import { getData } from "@/components/features/getAppData";
 import { dataCode } from "@/components/features/appEnums";
 
@@ -50,7 +50,7 @@ setInterval ( () => {
 }, 15000)
 
 export const transformData = () => {
-    const clearCatalogData = ref([])
+    const clearCatalogData = reactive([])
 
     unref(rawCatalog).filter(function(name) {
         const itemData = {}
@@ -77,7 +77,7 @@ export const transformData = () => {
             return +setPrice(unref(itemData.price), exchangeValue).toFixed(2)
         })
 
-        clearCatalogData.value.push(itemData)
+        clearCatalogData.push(itemData)
     });
 
     // TODO обновление модели при изменениях setUpdateTime
