@@ -1,7 +1,7 @@
 import {computed, unref, ref} from "vue";
 
 export function addItemToCart(itemData, cartData) {
-    let itemDataId = itemData.id.value;
+    let itemDataId = itemData.id;
     const cartItemTemplate = {
         id: itemData.id,
         itemQuantity: ref(1),

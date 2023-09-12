@@ -62,19 +62,18 @@ export default {
     },
 
     setup(){
-        const catalogData = appMarketData.marketCatalog;
+        const catalogData = unref(appMarketData).marketCatalog;
         const isPageDataLoaded = unref(appMarketData).isPageDataLoaded;
         const categoryList = computed(() => {
-
             let catList = []
-            catalogData.forEach(function (data) {
-                catList.push(data.category.value)
+            unref(catalogData).forEach(function (data) {
+                catList.push(data.category)
             })
             return [...new Set(catList)]
         })
         const sortCatalog = (catalogItems, category) => {
             return catalogItems.filter(function (item) {
-                return item.category.value === category;
+                return item.category === category;
             })
         }
 
@@ -89,7 +88,7 @@ export default {
             currencyExchangeValue,
             categoryList,
             sortCatalog,
-            manualExchangeInput
+            manualExchangeInput,
         }
     },
 }

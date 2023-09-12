@@ -1,14 +1,11 @@
 import namesData from "@/components/features/names";
-import {computed, reactive, ref, unref, watch} from "vue";
+import {computed, ref, unref} from "vue";
 import { getData } from "@/components/features/getAppData";
 import { dataCode } from "@/components/features/appEnums";
 
 const {
     isPageDataLoaded,
-    // rawAppData,
-    rawCatalog,
-    getDataFromFile,
-    updateStamp
+    rawAppData,
 } = getData()
 
 function randomInteger(min, max) {
@@ -17,16 +14,13 @@ function randomInteger(min, max) {
 }
 
 function setPrice(itemPrice, exchange) {
-    return unref(itemPrice) * exchange.value
+    return itemPrice * exchange.value
 }
 
 const regex = /^[\d.,:]*$/;
 export const startExchangeValue = ref(80);
 export const manualExchangeValue = ref();
 export const manualExchangeValueInput = ref();
-const setUpdateTime = computed(() => {
-    return unref(updateStamp)
-})
 
 export const exchangeValue = computed(() => {
     if ( unref(manualExchangeValue) && regex.test(unref(manualExchangeValue)) && unref(manualExchangeValue) !== 0) {
@@ -44,44 +38,44 @@ export const exchangeValue = computed(() => {
     }
 })
 
-setInterval ( () => {
-    getDataFromFile()
 
-    updateStamp.value = new Date() / 1000;
+setInterval ( () => {
     startExchangeValue.value =  randomInteger(60, 80)
-}, 5000)
+}, 15000)
 
 export const transformData = () => {
-    const clearCatalogData = reactive([])
+    const clearCatalogData = ref([])
 
-    console.log('обновление')
+    unref(rawAppData).Value.Goods.map(function(name) {
+        const itemData = {}
+        const itemCount = ref(name[dataCode.itemStorageValue]);
+        const itemPrice = ref(name[dataCode.itemPrice]);
+        const itemName = ref(namesData[name[dataCode.itemGroup]][dataCode.itemTypes][name[dataCode.itemId]][dataCode.itemName]);
+        const itemCategory = ref(namesData[name[dataCode.itemGroup]][dataCode.itemGroup]);
 
-    unref(rawCatalog).forEach(function(item, index) {
-        console.log(item)
-        console.log(index)
+        // TODO для проверки смены значений - для применения случайных значений
+        setInterval ( () => {
+            // exchangeValue.value =  randomInteger(50, 80)
+            // itemCount.value =  randomInteger(0, 5)
+            itemPrice.value =  randomInteger(1, 50)
+            // itemCategory.value =  randomInteger(0, 99)
+        }, 15000)
 
-        const itemData = reactive({
-            id: computed(()=> {
-                return ref(item[dataCode.itemId])
-            }),
-            category: computed(()=> {
-                return ref(namesData[item[dataCode.itemGroup]][dataCode.itemGroup])
-            }),
-            name: computed(()=> {
-                return ref(namesData[item[dataCode.itemGroup]][dataCode.itemTypes][item[dataCode.itemId]][dataCode.itemName])
-            }),
-            count: computed(()=> {
-                return ref(item[dataCode.itemStorageValue])
-            }),
-            price: computed(() => {
-                return +setPrice(ref(item[dataCode.itemPrice]), exchangeValue).toFixed(2)
-            }),
-            update: computed(() => {
-                return setUpdateTime
-            }),
+        itemData.id = name[dataCode.itemId];
+        itemData.category = computed(() => {
+            return unref(itemCategory)
+        })
+        itemData.name = computed(() => {
+            return unref(itemName)
+        })
+        itemData.count = computed(() => {
+            return unref(itemCount)
+        })
+        itemData.price = computed(() => {
+            return +setPrice(unref(itemPrice), exchangeValue).toFixed(2)
         })
 
-        clearCatalogData.push(itemData)
+        clearCatalogData.value.push(itemData)
     });
 
     return {
@@ -90,11 +84,3 @@ export const transformData = () => {
         isPageDataLoaded,
     }
 }
-
-// const forceUpdateData = () => {
-//     console.log('обновление')
-//
-//
-// }
-
-watch(setUpdateTime, transformData);

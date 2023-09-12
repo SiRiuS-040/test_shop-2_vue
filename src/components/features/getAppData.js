@@ -1,37 +1,34 @@
-import {ref} from "vue";
-import storageData from "@/components/features/storageData";
+import { ref } from "vue";
+// import apiMethods from "@/components/api/resources/apiMethods";
 
-function randomInteger(min, max) {
-    let rand = min + Math.random() * (max + 1 - min);
-    return Math.floor(rand);
-}
+import storageData from "@/components/features/storageData";
 
 export const getData = () => {
     const isPageDataLoaded = ref(false);
-    const rawAppData = ref({});
-    const updateStamp = ref(0)
+    const rawAppData = ref(storageData);
 
-    const rawCatalog = ref([]);
+    // TODO подключение через запрос
+    // const loadApiMethods = async() => {
+    //     appPageData.value = await apiMethods.index();
+    //
+    //     if (appPageData.value.dataEmpty === true) {
+    //         isPageDataLoaded.value = false;
+    //     } else {
+    //         isPageDataLoaded.value = true;
+    //     }
+    // };
+    // loadApiMethods().then();
 
-    // TODO прямое получение данных из файла
+    // TODO или прямое получение данных из файла
     const getDataFromFile = () => {
-        rawAppData.value = storageData
-        rawCatalog.value = storageData.Value.Goods
+        // rawAppData.value = storageData
         isPageDataLoaded.value = true;
     };
 
     getDataFromFile();
 
-    setInterval ( () => {
-        storageData.Value.Goods[0]['C'] = randomInteger(0, 10)
-        storageData.Value.Goods[0]['G'] = randomInteger(1, 3)
-    }, 1000)
-
     return {
         rawAppData,
-        rawCatalog,
         isPageDataLoaded,
-        getDataFromFile,
-        updateStamp
     }
 }
