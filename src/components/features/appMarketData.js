@@ -1,5 +1,4 @@
 import {computed, ref, unref} from "vue";
-
 import {transformData} from "@/components/features/useCatalog";
 
 const {
@@ -7,8 +6,6 @@ const {
     exchangeValue,
     isPageDataLoaded,
 } = transformData()
-
-// export const exchangeValue = ref(80);
 
 export const appMarketData = ref({
     marketCatalog: computed(() => {

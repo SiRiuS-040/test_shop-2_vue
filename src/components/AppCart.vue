@@ -33,6 +33,7 @@
 import {computed, unref} from "vue"
 import AppCartItem from "@/components/AppCartItem";
 import {appMarketData} from "@/components/features/appMarketData";
+import { convertPrice } from "@/components/features/helpFunctions";
 
 export default {
     name: "AppCart",
@@ -58,18 +59,9 @@ export default {
             }
         })
 
-        const convertPrice = (num) => {
-            return num.toLocaleString();
-        }
-
-        const makeOrder = () => {
-            console.log('Оформить заказ')
-        };
-
         return {
             cartOverallSum,
             cartList,
-            makeOrder,
             cartEmpty,
             convertPrice
         }

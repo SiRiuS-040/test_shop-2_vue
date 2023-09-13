@@ -7,7 +7,7 @@
             :class="priceClasses"
             class="app-goods-item__price"
         >
-            {{ convertPrice(itemData.fullPrice) }}
+            {{ convertPrice(itemExchangedPrice) }}
         </div>
         <UiButton
             @click="addItemToCart(itemData, cartData)"
@@ -22,17 +22,16 @@
 
 import { computed, unref} from "vue"
 import UiButton from "@/components/UiButton";
-
-import { addItemToCart } from "@/components/features/useAppCart";
 import {appMarketData} from "@/components/features/appMarketData";
+import { setPrice, convertPrice } from "@/components/features/helpFunctions";
+import {exchangeValue} from "@/components/features/useCatalog";
+import { addItemToCart } from "@/components/features/useAppCart";
 
 export default {
     name: "AppGoodsItem",
-
     components: {
         UiButton
     },
-
     props: {
         itemData: {
             type: Object
@@ -40,6 +39,10 @@ export default {
     },
 
     setup(props){
+        const itemExchangedPrice = computed(() => {
+            return +setPrice(unref(props.itemData.price), exchangeValue).toFixed(2)
+        })
+
         const cartData = unref(appMarketData).cartData
         let lastPrice = unref(props.itemData).price
 
@@ -56,15 +59,12 @@ export default {
             'app-goods-item__price--decr': !unref(isPriceUp),
         }))
 
-        const convertPrice = (num) => {
-            return num.toLocaleString();
-        }
-
         return {
             cartData,
-            addItemToCart,
             priceClasses,
-            convertPrice
+            itemExchangedPrice,
+            convertPrice,
+            addItemToCart
         }
     },
 

@@ -1,7 +1,8 @@
 import namesData from "@/components/features/names";
 import {computed, reactive, ref, unref, watch} from "vue";
-import { getData } from "@/components/features/getAppData";
 import { dataCode } from "@/components/features/appEnums";
+import { getData } from "@/components/features/getAppData";
+import { randomInteger } from "@/components/features/helpFunctions";
 
 const {
     isPageDataLoaded,
@@ -10,16 +11,8 @@ const {
     updateStamp
 } = getData()
 
-function randomInteger(min, max) {
-    let rand = min + Math.random() * (max + 1 - min);
-    return Math.floor(rand);
-}
-
-function setPrice(itemPrice, exchange) {
-    return itemPrice * exchange.value
-}
-
 const regex = /^[\d.,:]*$/;
+
 export const startExchangeValue = ref(80);
 export const manualExchangeValue = ref();
 export const manualExchangeValueInput = ref();
@@ -40,10 +33,6 @@ export const exchangeValue = computed(() => {
     }
 })
 
-const setUpdateTime = computed(() => {
-    return unref(updateStamp)
-})
-
 setInterval ( () => {
     getDataFromFile()
     startExchangeValue.value =  randomInteger(60, 80)
@@ -51,33 +40,23 @@ setInterval ( () => {
 
 export const transformData = () => {
     const clearCatalogData = reactive([])
-
-    unref(rawCatalog).filter(function(name) {
+    function addCatalogItem(rawItem) {
         const itemData = {}
-        const itemId = name[dataCode.itemId];
-        const itemCount = ref(name[dataCode.itemStorageValue]);
-        const itemPrice = ref(name[dataCode.itemPrice]);
-        const itemName = ref(namesData[name[dataCode.itemGroup]][dataCode.itemTypes][name[dataCode.itemId]][dataCode.itemName]);
-        const itemCategory = ref(namesData[name[dataCode.itemGroup]][dataCode.itemGroup]);
-
-        // TODO для проверки смены значений - для применения случайных значений
-        // setInterval ( () => {
-        //     // exchangeValue.value =  randomInteger(50, 80)
-        //     // itemCount.value =  randomInteger(0, 5)
-        //     // itemPrice.value =  randomInteger(1, 50)
-        //     // itemCategory.value =  randomInteger(0, 99)
-        // }, 1005000)
-
+        const itemId = rawItem[dataCode.itemId];
+        const itemCount = ref(rawItem[dataCode.itemStorageValue]);
+        const itemPrice = ref(rawItem[dataCode.itemPrice]);
+        const itemName = ref(namesData[rawItem[dataCode.itemGroup]][dataCode.itemTypes][rawItem[dataCode.itemId]][dataCode.itemName]);
+        const itemCategory = ref(namesData[rawItem[dataCode.itemGroup]][dataCode.itemGroup]);
         itemData.id = itemId
         itemData.category = itemCategory
         itemData.name = itemName
         itemData.count = itemCount
         itemData.price = itemPrice
-        itemData.fullPrice = computed(() => {
-            return +setPrice(unref(itemData.price), exchangeValue).toFixed(2)
-        })
-
         clearCatalogData.push(itemData)
+    }
+
+    unref(rawCatalog).filter(function(rawItem) {
+        addCatalogItem(rawItem)
     });
 
     // TODO обновление модели при изменениях setUpdateTime
@@ -85,10 +64,18 @@ export const transformData = () => {
         unref(clearCatalogData).forEach(function (item) {
             let itemId = item.id
             let indexInJson = unref(rawCatalog).findIndex(rawItem => rawItem['T'] === itemId)
-            item.price = unref(rawCatalog)[indexInJson]['C']
-            item.count = unref(rawCatalog)[indexInJson]['P']
+            if (indexInJson !== -1) {
+                item.price = unref(rawCatalog)[indexInJson]['C']
+                item.count = unref(rawCatalog)[indexInJson]['P']
+            } else {
+                addCatalogItem(item)
+            }
         })
     }
+
+    const setUpdateTime = computed(() => {
+        return unref(updateStamp)
+    })
 
     watch(setUpdateTime, forceUpdateData);
 

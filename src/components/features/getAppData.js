@@ -1,11 +1,6 @@
 import { ref } from "vue";
-
+import { randomInteger } from "@/components/features/helpFunctions";
 import storageData from "@/components/features/storageData";
-
-function randomInteger(min, max) {
-    let rand = min + Math.random() * (max + 1 - min);
-    return Math.floor(rand);
-}
 
 export const getData = () => {
     const isPageDataLoaded = ref(false);
@@ -26,7 +21,7 @@ export const getData = () => {
     setInterval ( () => {
         storageData.Value.Goods[randomInteger(0, 11)]['C'] = randomInteger(0, 99);
         storageData.Value.Goods[randomInteger(0, 11)]['P'] = randomInteger(0, 10);
-    }, 1000)
+    }, 2000)
 
     return {
         rawCatalog,

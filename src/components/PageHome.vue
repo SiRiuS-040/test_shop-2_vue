@@ -60,7 +60,6 @@ export default {
         AppGoodsItem,
         AppCart
     },
-
     setup(){
         const catalogData = unref(appMarketData).marketCatalog;
         const isPageDataLoaded = unref(appMarketData).isPageDataLoaded;
@@ -87,8 +86,8 @@ export default {
             isPageDataLoaded,
             currencyExchangeValue,
             categoryList,
-            sortCatalog,
             manualExchangeInput,
+            sortCatalog,
         }
     },
 }

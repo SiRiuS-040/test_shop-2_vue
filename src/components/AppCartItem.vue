@@ -46,6 +46,7 @@
 import UiButton from "./UiButton.vue";
 import {computed, unref} from "vue";
 import {appMarketData} from "@/components/features/appMarketData";
+import { convertPrice, getItemIndex } from "@/components/features/helpFunctions";
 
 export default {
     name: "AppCartItem",
@@ -59,10 +60,6 @@ export default {
     setup(props){
         const cartList = unref(appMarketData).cartData.cartList;
 
-        const getItemIndex = (item, list) => {
-            let itemDataId = item.id;
-            return list.findIndex(cartItem => cartItem.id === itemDataId);
-        }
         const cartItemIncr = (itemData) => {
             itemData.itemQuantity++
         };
@@ -90,18 +87,14 @@ export default {
             'app-cart-item--error': unref(isCountError)
         }))
 
-        const convertPrice = (num) => {
-            return num.toLocaleString();
-        }
-
         return {
             cartItemIncr,
             cartItemDecr,
             cartItemDelete,
+            convertPrice,
             cartList,
             cartItemClasses,
             isCountError,
-            convertPrice
         }
     },
 }

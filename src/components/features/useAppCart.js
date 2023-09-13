@@ -1,4 +1,6 @@
 import {computed, unref, ref} from "vue";
+import {exchangeValue} from "@/components/features/useCatalog";
+import { setPrice } from "@/components/features/helpFunctions";
 
 export function addItemToCart(itemData, cartData) {
     let itemDataId = itemData.id;
@@ -10,7 +12,7 @@ export function addItemToCart(itemData, cartData) {
         }),
         itemName: ref(itemData.name),
         itemPrice: computed(() => {
-            return unref(itemData.fullPrice)
+            return +setPrice(unref(itemData.price), exchangeValue).toFixed(2)
         }),
         itemOverallPrice: computed(() => {
             return unref(cartItemTemplate.itemQuantity) * unref(cartItemTemplate.itemPrice)

@@ -18,7 +18,6 @@
 
 export default {
     name: "UiButton",
-
     props: {
         noDesc: {
             type: Boolean,
@@ -35,7 +34,6 @@ export default {
     },
 
     setup(props) {
-
         const uiButtonClasses = [
             props.buttonType ? `ui-button--${props.buttonType}` : '',
         ]
