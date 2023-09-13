@@ -58,7 +58,7 @@ export default {
     },
 
     setup(props){
-        const cartList = unref(appMarketData).cartData.cartList;
+        const cartList = appMarketData.cartData.cartList;
 
         const cartItemIncr = (itemData) => {
             itemData.itemQuantity++
@@ -74,7 +74,7 @@ export default {
             let itemIndex = getItemIndex(item, list)
             list.splice(itemIndex, 1)
         };
-        const marketCatalog = unref(appMarketData).marketCatalog;
+        const marketCatalog = appMarketData.marketCatalog;
         const isCountError = computed(() => {
             const itemCartQ = unref(props.cartItemData).itemQuantity;
             const indexInCatalog = getItemIndex(unref(props.cartItemData), unref(marketCatalog));

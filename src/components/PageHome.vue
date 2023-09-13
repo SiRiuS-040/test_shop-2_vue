@@ -7,14 +7,14 @@
             <div class="app-catalog__section">
                 <div class="app-catalog__exchange-wrapper">
                     <p class="app-catalog__title">
-                        Курс валюты: {{ currencyExchangeValue }} руб.
+                        Курс валюты: {{ exchangeValue }} руб.
                     </p>
                     <label>
                         <span class="app-catalog__title">
                             {{ 'Фиксация курса: ' }}
                         </span>
                         <input
-                            v-model="manualExchangeInput"
+                            v-model="manualExchangeValue"
                             type="tel"
                             placeholder="Свой курс не задан"
                             maxlength="10"
@@ -48,11 +48,11 @@
 </template>
 
 <script>
-import {computed, unref, ref} from "vue";
+import {computed} from "vue";
 import {appMarketData} from "@/components/features/appMarketData";
-import { manualExchangeValue, exchangeValue } from "@/components/features/useCatalog";
 import AppGoodsItem from "../components/AppGoodsItem";
 import AppCart from "../components/AppCart";
+import {catalogExports} from "@/components/features/useCatalog";
 
 export default {
     name: "PageHome",
@@ -61,11 +61,16 @@ export default {
         AppCart
     },
     setup(){
-        const catalogData = unref(appMarketData).marketCatalog;
-        const isPageDataLoaded = unref(appMarketData).isPageDataLoaded;
+        const {
+            manualExchangeValue,
+            exchangeValue,
+            isPageDataLoaded
+        } = catalogExports()
+
+        const catalogData = appMarketData.marketCatalog;
         const categoryList = computed(() => {
             let catList = []
-            unref(catalogData).forEach(function (data) {
+            appMarketData.marketCatalog.forEach(function (data) {
                 catList.push(data.category)
             })
             return [...new Set(catList)]
@@ -76,17 +81,12 @@ export default {
             })
         }
 
-        const manualExchangeInput = ref(manualExchangeValue);
-        const currencyExchangeValue = computed(() => {
-            return unref(exchangeValue)
-        })
-
         return {
             catalogData,
             isPageDataLoaded,
-            currencyExchangeValue,
+            exchangeValue,
             categoryList,
-            manualExchangeInput,
+            manualExchangeValue,
             sortCatalog,
         }
     },

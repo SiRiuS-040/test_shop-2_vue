@@ -42,15 +42,15 @@ export default {
     },
 
     setup(){
-        const cartList = unref(appMarketData).cartData.cartList
+        const cartList = appMarketData.cartData.cartList
         const cartEmpty = computed(() => {
-            return unref(appMarketData).cartData.cartList.length === 0
+            return appMarketData.cartData.cartList.length === 0
         })
 
         const cartOverallSum = computed(() => {
             if (cartList.length > 0) {
                 let itemsSum = 0
-                unref(appMarketData).cartData.cartList.forEach(function (item) {
+                appMarketData.cartData.cartList.forEach(function (item) {
                     itemsSum = itemsSum + unref(item.itemOverallPrice)
                 })
                 return itemsSum

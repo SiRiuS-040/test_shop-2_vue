@@ -1,6 +1,12 @@
 import { ref } from "vue";
 import { randomInteger } from "@/components/features/helpFunctions";
-import storageData from "@/components/features/storageData";
+import storageData from "@/components/jsons/storageData";
+import {dataCode} from "@/components/features/appEnums";
+
+const {
+    codePrice,
+    codeStorageCount,
+} = dataCode
 
 export const getData = () => {
     const isPageDataLoaded = ref(false);
@@ -14,13 +20,11 @@ export const getData = () => {
         rawCatalog.value = newJson
         isPageDataLoaded.value = true;
     };
-
     getDataFromFile();
 
-    // Обновление данных в Json - имитация
     setInterval ( () => {
-        storageData.Value.Goods[randomInteger(0, 11)]['C'] = randomInteger(0, 99);
-        storageData.Value.Goods[randomInteger(0, 11)]['P'] = randomInteger(0, 10);
+        storageData.Value.Goods[randomInteger(0, 11)][codePrice] = randomInteger(0, 99);
+        storageData.Value.Goods[randomInteger(0, 11)][codeStorageCount] = randomInteger(0, 10);
     }, 2000)
 
     return {

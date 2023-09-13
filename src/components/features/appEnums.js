@@ -1,9 +1,9 @@
 export const dataCode = {
-    itemPrice: 'C',
-    itemGroup: 'G',
-    itemName: 'N',
-    itemId: 'T',
-    itemTypes: 'B',
-    itemStorageValue: 'P',
+    codePrice: 'C',
+    codeGroup: 'G',
+    codeName: 'N',
+    codeId: 'T',
+    codeTypes: 'B',
+    codeStorageCount: 'P',
 };
 

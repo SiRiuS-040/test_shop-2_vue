@@ -24,8 +24,8 @@ import { computed, unref} from "vue"
 import UiButton from "@/components/UiButton";
 import {appMarketData} from "@/components/features/appMarketData";
 import { setPrice, convertPrice } from "@/components/features/helpFunctions";
-import {exchangeValue} from "@/components/features/useCatalog";
 import { addItemToCart } from "@/components/features/useAppCart";
+import {catalogExports} from "@/components/features/useCatalog";
 
 export default {
     name: "AppGoodsItem",
@@ -39,6 +39,10 @@ export default {
     },
 
     setup(props){
+        const {
+            exchangeValue
+        } = catalogExports()
+
         const itemExchangedPrice = computed(() => {
             return +setPrice(unref(props.itemData.price), exchangeValue).toFixed(2)
         })

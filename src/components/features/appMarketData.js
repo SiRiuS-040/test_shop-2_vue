@@ -1,26 +1,20 @@
-import {computed, ref, unref} from "vue";
-import {transformData} from "@/components/features/useCatalog";
+import {reactive} from "vue";
+import {catalogExports} from "@/components/features/useCatalog";
 
 const {
     clearCatalogData,
     exchangeValue,
     isPageDataLoaded,
-} = transformData()
+} = catalogExports()
 
-export const appMarketData = ref({
-    marketCatalog: computed(() => {
-        return clearCatalogData
-    }),
-    isPageDataLoaded: computed(() => {
-        return isPageDataLoaded
-    }),
+export const appMarketData = reactive({
+    marketCatalog: clearCatalogData,
+    isPageDataLoaded: isPageDataLoaded,
     cartData: {
-        cartList: ref([]),
+        cartList: reactive([]),
     },
     settings: {
-        exchangeValue: computed(() => {
-            return unref(exchangeValue)
-        }),
+        exchangeValue: exchangeValue,
     }
 })
 
