@@ -67,8 +67,6 @@ export const transformData = () => {
             if (indexInJson !== -1) {
                 item.price = unref(rawCatalog)[indexInJson]['C']
                 item.count = unref(rawCatalog)[indexInJson]['P']
-            } else {
-                addCatalogItem(item)
             }
         })
     }
